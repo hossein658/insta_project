@@ -1,8 +1,8 @@
 entity Report 	{
   name  String ,
   logo    Blob ,
-  createdTime  Int ,
-  updatedTime  Int
+  createdTime  Long ,
+  updatedTime  Long
 }
 paginate Report with pagination
 
