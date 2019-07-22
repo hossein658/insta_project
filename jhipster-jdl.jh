@@ -1,0 +1,12 @@
+entity Report 	{
+  name  String ,
+  logo    Blob ,
+  createdTime  Int ,
+  updatedTime  Int
+}
+paginate Report with pagination
+
+ dto Report with mapstruct
+
+service all with serviceImpl 
+
