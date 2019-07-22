@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -86,4 +88,17 @@ public class ReportServiceImpl implements ReportService {
         log.debug("Request to delete Report : {}", id);
         reportRepository.deleteById(id);
     }
+
+
+    @Service
+    public class ReportService {
+
+        @Resource
+        public ReportRepository reportrepository;
+
+        public List<Report> getReport(){
+            return reportrepository.findAll();
+        }
+    }
+
 }

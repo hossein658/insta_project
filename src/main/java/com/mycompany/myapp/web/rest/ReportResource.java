@@ -1,5 +1,8 @@
 package com.mycompany.myapp.web.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.myapp.domain.Report;
+import com.mycompany.myapp.repository.ReportRepository;
 import com.mycompany.myapp.service.ReportService;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import com.mycompany.myapp.service.dto.ReportDTO;
@@ -9,11 +12,13 @@ import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
@@ -124,4 +129,31 @@ public class ReportResource {
         reportService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+
+
+    @RestController
+    public class FileDownloadRestController {
+
+        @Autowired
+        private ReportService reportService;
+
+        @GetMapping("/download")
+        public ResponseEntity<byte[]> downloadErrorData() throws Exception {
+            List<Report> reports  = ReportService.getReport();
+             ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(Reports);
+            byte[] isr = json.getBytes();
+            String fileName = "reports.json";
+            HttpHeaders respHeaders = new HttpHeaders();
+            respHeaders.setContentLength(isr.length);
+            respHeaders.setContentType(new MediaType("text", "json"));
+            respHeaders.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            respHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
+            return new ResponseEntity<byte[]>(isr, respHeaders, HttpStatus.OK);
+        }
+
+
+
+
+
 }

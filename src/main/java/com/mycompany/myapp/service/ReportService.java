@@ -1,10 +1,12 @@
 package com.mycompany.myapp.service;
 
+import com.mycompany.myapp.domain.Report;
 import com.mycompany.myapp.service.dto.ReportDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -43,4 +45,9 @@ public interface ReportService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+
+
+    public List<Report> getReport();
+
 }
